@@ -6,17 +6,24 @@ import './App.css';
 
 class App extends Component {
     state = {
-        response: ''
+        response: '',
+        anotherresponse: ''
     };
 
     componentDidMount() {
-        this.callApi()
+        // Test call 1
+        this.callApi('/api/hello')
             .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+
+        // Test call 2
+        this.callApi('/')
+            .then(res => this.setState({ anotherresponse: res.express }))
             .catch(err => console.log(err));
     }
 
-    callApi = async () => {
-        const response = await fetch('/api/hello');
+    callApi = async (path) => {
+        const response = await fetch(path);
         const body = await response.json();
 
         if (response.status !== 200) throw Error(body.message);
@@ -32,6 +39,7 @@ class App extends Component {
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
                 <p className="App-intro">{this.state.response}</p>
+                <p className="App-intro">{this.state.anotherresponse}</p>
             </div>
         );
     }
