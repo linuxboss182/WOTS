@@ -7,12 +7,8 @@ const styles = {
 	root: {
 	  	flexGrow: 1,
 	},
-	flex: {
-	  	flex: 1,
-	},
-	menuButton: {
-		marginLeft: -12,
-		marginRight: 20,
+	label: {
+	  	flex: 0,
 	},
 };
 
@@ -22,8 +18,8 @@ class NavBar extends Component {
 
 		return(
 			<AppBar position="static">
-				<Toolbar>
-					<Typography variant="title" color="inherit" className={styles.flex}>
+				<Toolbar style={styles.root}>
+					<Typography variant="title" color="inherit" style={styles.label}>
 						Constellation
 					</Typography>
 				</Toolbar>
