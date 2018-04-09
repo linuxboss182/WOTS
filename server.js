@@ -3,6 +3,10 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var googleMapsClient = require('@google/maps').createClient({
+    key: 'AIzaSyCVxwaML5cPHGr1iYhXCRmcVv2s-jG3d3Y',
+    Promise: Promise
+});
 
 //Import modules
 var api = require('./api/api');
@@ -16,6 +20,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Hello World API test call
 app.get('/api/hello', (req, res) => {
     res.send({ express: 'Hello From Express' });
+});
+
+// Call Google Geocoding API
+app.get('/geocoding', (req, res) => {
+    googleMapsClient
+        .geocode({address: '1600 Amphitheatre Parkway, Mountain View, CA'})
+        .asPromise()
+        .then((response) => {
+            console.log(response.json.results[0].geometry.location.lat);
+            console.log(response.json.results[0].geometry.location.lng);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
 
 //Register API calls
