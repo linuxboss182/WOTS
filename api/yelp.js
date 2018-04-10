@@ -21,7 +21,7 @@ yelp.search = function (term, location, callback) {
         term: term,
         location: location
     }).then(response => {
-        console.log(response.jsonBody.businesses[0].name);
+        console.log(response.jsonBody.businesses[0]);
         callback(response.jsonBody.businesses[0])
     }).catch(e => {
         console.log(e);

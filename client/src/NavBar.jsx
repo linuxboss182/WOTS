@@ -8,7 +8,8 @@ const styles = {
 	  	flexGrow: 1,
 	},
 	label: {
-	  	flex: 0,
+		  flex: 0,
+		  marginLeft: 10
 	},
 };
 
@@ -19,6 +20,7 @@ class NavBar extends Component {
 		return(
 			<AppBar position="static">
 				<Toolbar style={styles.root}>
+					<img src="./res/constellationLogo.PNG" alt="" height="50" />
 					<Typography variant="title" color="inherit" style={styles.label}>
 						Constellation
 					</Typography>

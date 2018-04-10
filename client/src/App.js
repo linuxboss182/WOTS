@@ -5,21 +5,30 @@ import SearchBar from './SearchBar';
 import ResultsPage from './ResultsPage';
 
 class App extends Component {
-    state = {
-        response: '',
-        anotherresponse: ''
-    };
+    constructor(props){
+        super(props);
+
+        this.state = {
+            businessData: null,
+        };
+
+        this.setBusinessData = this.setBusinessData.bind(this);
+    }
 
     componentDidMount() {
-        // Test call 1
-        this.callApi('/api/hello')
-            .then(res => this.setState({ response: res.express }))
-            .catch(err => console.log(err));
+        // // Test call 1
+        // this.callApi('/api/hello')
+        //     .then(res => this.setState({ response: res.express }))
+        //     .catch(err => console.log(err));
 
-        // Test call 2
-        this.callApi('/')
-            .then(res => this.setState({ anotherresponse: res.express }))
-            .catch(err => console.log(err));
+        // // Test call 2
+        // this.callApi('/')
+        //     .then(res => this.setState({ anotherresponse: res.express }))
+        //     .catch(err => console.log(err));
+    }
+
+    setBusinessData(data) {
+        this.setState({businessData: data});
     }
 
     callApi = async (path) => {
@@ -31,6 +40,8 @@ class App extends Component {
         return body;
     };
 
+
+
     render() {
         return (
             <div className="App">
@@ -41,8 +52,8 @@ class App extends Component {
                 <p className="App-intro">{this.state.response}</p>
                 <p className="App-intro">{this.state.anotherresponse}</p> */}
                 <NavBar />
-                <SearchBar />
-                <ResultsPage />
+                <SearchBar setBusinessData={this.setBusinessData}/>
+                <ResultsPage businessData={this.state.businessData}/>
             </div>
         );
     }
