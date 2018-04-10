@@ -160,6 +160,7 @@ class SearchBar extends Component {
 			this.callApi('/search?name='+this.state.searchText)
 				.then(res => {
 					console.log(res);
+					this.props.setBusinessData(res);
 				})
 				.catch(err => console.log(err));	
 		}

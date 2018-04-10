@@ -16,7 +16,8 @@ router.get('/', function(req, res, next) {
 router.get('/search', function(req, res, next) {
     let business = req.query.name;
     yelp.search(business, 'worcester, ma', function (result) {
-        res.send({ name: result.name, rating: result.rating});
+        // res.send({ name: result.name, rating: result.rating});
+        res.send(result);
     });
 });
 

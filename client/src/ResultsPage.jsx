@@ -22,7 +22,20 @@ class ResultsPage extends Component {
 			<Grid container spacing={24} style={styles.root}>
 				<Grid item xs={12} sm={9}>
 					<Paper style={styles.paper}>
-						Results
+						{
+							this.props.businessData === null ? (<p>No results to show</p>) : (
+								<Grid container spacing={24}>
+									<Grid item xs={12} sm={8}>
+										<h1>{this.props.businessData['name']}</h1>
+										<h2>{"Rating: " + this.props.businessData['rating']}</h2>
+									</Grid>
+									<Grid item xs={12} sm={4}>
+										<img width="100%" src={this.props.businessData['image_url']} alt=""/>
+									</Grid>
+								</Grid>
+							)
+						}
+						
 					</Paper>
 				</Grid>
 				<Grid item xs={12} sm={3}>
