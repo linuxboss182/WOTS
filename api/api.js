@@ -27,20 +27,31 @@ router.get('/search', function(req, res, next) {
     var google_result_rating;
     var name;
 
+	//Search yelp
     yelp.search(business, "worcester, ma", function (result) {
         yelp_result_rating = result.rating;
        	name = result.name;
-       	console.log(yelp_result_rating)
+
+       	google.search(business, function (g_result){
+    		google_result_rating = g_result.rating;
+
+    		final_rating = combined_ratings(yelp_result_rating, google_result_rating)
+    		result.rating = final_rating
+    		res.send(result);
+    	});
     });
 
-    google.search(business, function (result){
-    	google_result_rating = result.rating;
-    	console.log(google_result_rating)
-    });
 
-    final_rating = combined_ratings(yelp_result_rating, google_result_rating)
-    console.log(final_rating)
-    res.send({name: name, rating: final_rating});
+
+
+});
+
+router.get('/autocomplete', function(req, res, next) {
+
+    yelp.autocomplete(req.query.name, req.query.long, req.query.lat, function (result) {
+
+        res.send(result);
+    })
 });
 
 module.exports = router;

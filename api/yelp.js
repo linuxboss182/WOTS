@@ -27,6 +27,36 @@ yelp.search = function (term, location, callback) {
         console.log(e);
     });
 
+};
+
+yelp.autocomplete =  function (term, long, lat, callback) {
+
+    yelp.client.autocomplete({
+        text: term,
+        latitude: lat,
+        longitude: long
+    }).then(response => {
+        relevantTerms = [];
+
+        //businesses
+        response.jsonBody.businesses.forEach(function(el){
+            relevantTerms.push(el.name)
+        });
+
+        //categories
+        response.jsonBody.categories.forEach(function(el){
+            relevantTerms.push(el.title)
+        });
+
+        //text
+        response.jsonBody.terms.forEach(function(el){
+            relevantTerms.push(el.text)
+        });
+
+        callback(relevantTerms)
+    }).catch(e => {
+        console.log(e);
+    });
 
 };
 
