@@ -6,7 +6,14 @@ var express = require('express');
 var router = express.Router();
 
 var yelp = require('./yelp.js');
+var google = require('./google_places.js');
 yelp()
+google()
+
+// Average function
+function combined_ratings(rating1, rating2) {
+	return (rating1 + rating2) / 2
+}
 
 //Test call
 router.get('/', function(req, res, next) {
@@ -19,16 +26,29 @@ router.get('/search', function(req, res, next) {
     if(zipcode == undefined || zipcode == ""){
         zipcode = "01609";
     }
+
+    var yelp_result_rating;
+    var google_result_rating;
+    var name;
+
+	// search yelp
     yelp.search(business, zipcode, function (result) {
-        // res.send({ name: result.name, rating: result.rating});
+        yelp_result_rating = result.rating;
+       	name = result.name;
 
-        //Search google
+        // search google
+       	google.search(business, function (g_result){
+    		google_result_rating = g_result.rating;
 
-        //Search category
-
-
-        res.send(result);
+    		final_rating = combined_ratings(yelp_result_rating, google_result_rating);
+    		result.rating = final_rating;
+    		res.send(result);
+    	});
     });
+
+
+
+
 });
 
 router.get('/autocomplete', function(req, res, next) {
