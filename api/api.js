@@ -21,8 +21,25 @@ router.get('/search', function(req, res, next) {
     }
     yelp.search(business, zipcode, function (result) {
         // res.send({ name: result.name, rating: result.rating});
+
+        //Search google
+
+        //Search category
+
+
         res.send(result);
     });
+});
+
+router.get('/autocomplete', function(req, res, next) {
+
+    yelp.autocomplete(req.query.name, req.query.long, req.query.lat, function (result) {
+        console.log("result: " + result);
+        if(result == null){
+            result = {};
+        }
+        res.send(result);
+    })
 });
 
 module.exports = router;

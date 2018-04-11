@@ -23,7 +23,7 @@ class ResultsPage extends Component {
 				<Grid item xs={12} sm={9}>
 					<Paper style={styles.paper}>
 						{
-							this.props.businessData === null ? (<p>No results to show</p>) : (
+							(this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
 								<Grid container spacing={24}>
 									<Grid item xs={12} sm={8}>
 										<h1>{this.props.businessData['name']}</h1>
@@ -31,7 +31,7 @@ class ResultsPage extends Component {
 										<h3>{"Services: " + (this.props.businessData['transactions'].length > 0 ? this.props.businessData['transactions'].join(", ") : "N/A")}</h3>
 										<h2>{"Status: " + (this.props.businessData['is_closed'] ? "Closed" : "Open")}</h2>
 										<h2>{"Rating: " + this.props.businessData['rating']}</h2>
-										<h2>{"Price: " + this.props.businessData['price']}</h2>
+										<h2>{"Price: " + (this.props.businessData['price'] === undefined ? "N/A" : this.props.businessData['price'])}</h2>
 										<h2>{"Address: " + this.props.businessData['location']['address1']}</h2> 
 										<h2>{this.props.businessData['location']['city'] + ', ' + this.props.businessData['location']['state'] + ' ' + 
 											this.props.businessData['location']['zip_code']}</h2>

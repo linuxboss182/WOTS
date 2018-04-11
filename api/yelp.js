@@ -21,12 +21,48 @@ yelp.search = function (term, location, callback) {
         term: term,
         location: location
     }).then(response => {
-        console.log(response.jsonBody.businesses[0]);
-        callback(response.jsonBody.businesses[0])
+        if(response.jsonBody.businesses.length == 0){
+            callback(null);
+        }
+        else{
+            console.log(response.jsonBody.businesses[0]);
+            callback(response.jsonBody.businesses[0]);
+        }
     }).catch(e => {
         console.log(e);
     });
 
+};
+
+yelp.autocomplete =  function (term, long, lat, callback) {
+
+    yelp.client.autocomplete({
+        text: term,
+        latitude: lat,
+        longitude: long
+    }).then(response => {
+        relevantTerms = [];
+
+        //businesses
+        response.jsonBody.businesses.forEach(function(el){
+            relevantTerms.push(el.name)
+        });
+
+        //categories
+        response.jsonBody.categories.forEach(function(el){
+            relevantTerms.push(el.title)
+        });
+
+        //text
+        response.jsonBody.terms.forEach(function(el){
+            relevantTerms.push(el.text)
+        });
+
+        callback(relevantTerms)
+    }).catch(e => {
+        console.log(e);
+        callback([]);
+    });
 
 };
 

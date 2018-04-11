@@ -115,26 +115,6 @@ function getSuggestionValue(suggestion) {
 	return suggestion;
 }
 
-function getSuggestions(value) {
-	const inputValue = value.trim().toLowerCase();
-	const inputLength = inputValue.length;
-	let count = 0;
-
-	let suggestions = ['the sole proprietor', 'the boynton', 'the goats head'];
-  
-	return inputLength === 0
-	  ? []
-	  : suggestions.filter(suggestion => {
-		  const keep =
-			count < 5 && suggestion.toLowerCase().slice(0, inputLength) === inputValue;
-  
-		  if (keep) {
-			count += 1;
-		  }
-  
-		  return keep;
-		});
-}
 
 class SearchBar extends Component {
 
@@ -145,18 +125,54 @@ class SearchBar extends Component {
 			searchText: "",
 			zipCodeText: "",
 			suggestions: [],
+			long: 0,
+			lat: 0
 		};
 
 		this.inputChange = this.inputChange.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
+        this.setPosition = this.setPosition.bind(this);
+        this.getSuggestions = this.getSuggestions.bind(this);
+    }
+
+    componentDidMount(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.setPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.")
+        }
+	}
+
+    setPosition(position){
+		this.setState({long: position.coords.longitude,
+			lat: position.coords.latitude});
+	}
+
+	getSuggestions(value) {
+		if(this.state.searchText !== ""){
+			this.callApi('/autocomplete?name='+value+"&long="+this.state.long+"&lat="+this.state.lat)
+				.then(res => {
+					this.setState({suggestions: res});
+				})
+				.catch(err => console.log(err));
+		}
 	}
 
 	inputChange = (event, { newValue }) => {
 		this.setState({searchText: newValue});
-	}
+	};
 
 	zipCodeChange = (event) => {
 		this.setState({zipCodeText: event.target.value});
+		// if(event.target.value.length === 5) {
+		// 	this.callApi('/geocode?zipcode='+event.target.value)
+		// 		.then(res => {
+		// 			console.log(res);
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err);
+		// 		});	
+		// }
 	}
 
 	handleSearch(event) {
@@ -164,10 +180,11 @@ class SearchBar extends Component {
 		if(this.state.searchText !== ""){
 			this.callApi('/search?name='+this.state.searchText+'&zipcode='+this.state.zipCodeText)
 				.then(res => {
-					console.log(res);
 					this.props.setBusinessData(res);
 				})
-				.catch(err => console.log(err));	
+				.catch(err => {
+					this.props.setBusinessData(null);
+				});	
 		}
 	}
 
@@ -181,9 +198,7 @@ class SearchBar extends Component {
     };
 
 	handleSuggestionsFetchRequested = ({ value }) => {
-		this.setState({
-		 	suggestions: getSuggestions(value),
-		});
+		this.getSuggestions(value);
 	};
 	
 	handleSuggestionsClearRequested = () => {
