@@ -56,7 +56,7 @@ const styles = ({
 		listStyleType: 'none',
 	},
 	button: {
-		marginLeft: 20,
+		marginLeft: 0,
 	},
 	icon: {
 		marginLeft: 5,
@@ -143,6 +143,7 @@ class SearchBar extends Component {
 
 		this.state = {
 			searchText: "",
+			zipCodeText: "",
 			suggestions: [],
 		};
 
@@ -154,10 +155,14 @@ class SearchBar extends Component {
 		this.setState({searchText: newValue});
 	}
 
+	zipCodeChange = (event) => {
+		this.setState({zipCodeText: event.target.value});
+	}
+
 	handleSearch(event) {
 		event.preventDefault();
 		if(this.state.searchText !== ""){
-			this.callApi('/search?name='+this.state.searchText)
+			this.callApi('/search?name='+this.state.searchText+'&zipcode='+this.state.zipCodeText)
 				.then(res => {
 					console.log(res);
 					this.props.setBusinessData(res);
@@ -196,7 +201,7 @@ class SearchBar extends Component {
 						<form autoComplete="off" onSubmit={this.handleSearch}>
 							<Grid container spacing={24}>
 								<Grid item sm={2}/>
-								<Grid item sm={6}>
+								<Grid item sm={4}>
 									<Autosuggest
 										theme={{
 											container: styles.container,
@@ -214,6 +219,16 @@ class SearchBar extends Component {
 										inputProps={{
 											value: this.state.searchText,
 											onChange: this.inputChange,
+										}}	
+									/>
+								</Grid>
+								<Grid item sm={2}>
+									<TextField
+										fullWidth
+										label="Enter a zip code..."
+										InputProps={{
+											value: this.state.zipCodeText,
+											onChange: this.zipCodeChange,
 										}}	
 									/>
 								</Grid>
