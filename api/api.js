@@ -43,6 +43,4 @@ router.get('/search', function(req, res, next) {
     res.send({name: name, rating: final_rating});
 });
 
-\
-
 module.exports = router;
