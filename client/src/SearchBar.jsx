@@ -137,13 +137,21 @@ class SearchBar extends Component {
 
     componentDidMount(){
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.setPosition);
+			if(this.state.lat === 0 && this.state.long === 0){
+				navigator.geolocation.getCurrentPosition(this.setPosition);
+			}
         } else {
             alert("Geolocation is not supported by this browser.")
         }
 	}
 
     setPosition(position){
+		console.log(position);
+		// this.callApi('/reversegeocode?long='+position.coords.longitude+"&lat="+position.coords.latitude)
+		// 	.then(res => {
+		// 		console.log(res);
+		// 	})
+		// 	.catch(err => console.log(err));
 		this.setState({long: position.coords.longitude,
 			lat: position.coords.latitude});
 	}
@@ -164,21 +172,22 @@ class SearchBar extends Component {
 
 	zipCodeChange = (event) => {
 		this.setState({zipCodeText: event.target.value});
-		// if(event.target.value.length === 5) {
-		// 	this.callApi('/geocode?zipcode='+event.target.value)
-		// 		.then(res => {
-		// 			console.log(res);
-		// 		})
-		// 		.catch(err => {
-		// 			console.log(err);
-		// 		});	
-		// }
+		if(event.target.value.length === 5) {
+			this.callApi('/geocode?zipcode='+event.target.value)
+				.then(res => {
+					console.log(res);
+					this.setState({lat: res.lat, long: res.long});
+				})
+				.catch(err => {
+					console.log(err);
+				});	
+		}
 	}
 
 	handleSearch(event) {
 		event.preventDefault();
 		if(this.state.searchText !== ""){
-			this.callApi('/search?name='+this.state.searchText+'&zipcode='+this.state.zipCodeText)
+			this.callApi('/search?name='+this.state.searchText+'&zipcode='+this.state.zipCodeText+'&lat='+this.state.lat+'&long='+this.state.long)
 				.then(res => {
 					this.props.setBusinessData(res);
 				})

@@ -20,8 +20,27 @@ router.get('/', function(req, res, next) {
     res.send({ express: 'Hello From API.js' });
 });
 
+router.get('/geocode', function(req, res, next) {
+    let zipcode = req.query.zipcode;
+
+    google.getLatLong(zipcode, function(location){
+        res.send({lat: location.lat, long: location.lng});
+    });
+});
+
+// router.get('/reversegeocode', function(req, res, next) {
+//     let lat = req.query.lat;
+//     let long = req.query.long;
+
+//     google.getAddress(lat, long, function(address){
+//         res.send(address);
+//     });
+// });
+
 router.get('/search', function(req, res, next) {
     let business = req.query.name;
+    let lat = req.query.lat;
+    let long = req.query.long;
     let zipcode = req.query.zipcode;
     if(zipcode == undefined || zipcode == ""){
         zipcode = "01609";
@@ -37,18 +56,15 @@ router.get('/search', function(req, res, next) {
        	name = result.name;
 
         // search google
-       	google.search(business, function (g_result){
-    		google_result_rating = g_result.rating;
-
-    		final_rating = combined_ratings(yelp_result_rating, google_result_rating);
-    		result.rating = final_rating;
+       	google.search(business, lat, long, function (g_result){
+            if(g_result !== null){
+                google_result_rating = g_result.rating;
+                final_rating = combined_ratings(yelp_result_rating, google_result_rating);
+                result.rating = final_rating;
+            }
     		res.send(result);
     	});
     });
-
-
-
-
 });
 
 router.get('/autocomplete', function(req, res, next) {
