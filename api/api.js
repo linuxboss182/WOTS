@@ -67,6 +67,12 @@ router.get('/search', function(req, res, next) {
 
             // Find similar business
             yelp.search(result.categories[0].title, zipcode, 5, function (sim_results) {
+                //Remove duplicate
+                sim_results.forEach(function(sim_result, index, object){
+                    if(sim_result.id == result.id){
+                        object.splice(index, 1);
+                    }
+                });
 
                 result.similar = sim_results;
 
