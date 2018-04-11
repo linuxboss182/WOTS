@@ -74,7 +74,9 @@ router.get('/search', function(req, res, next) {
                     }
                 });
 
-                sim_results.forEach(function(sim_result, index, object){
+                var combineSimilar = false;
+                if(combineSimilar == true) { //If we want to search google for each similar business
+                    sim_results.forEach(function (sim_result, index, object) {
                         // Search google
                         google.search(sim_result.name, sim_result.coordinates.latitude, sim_result.coordinates.longitude, function (g_result) {
                             if (g_result !== null) {
@@ -84,19 +86,23 @@ router.get('/search', function(req, res, next) {
                                 asyncForEachCallback();
                             }
                         });
-                });
+                    });
 
-                //Get combined rating with each of google's results
-                var len = sim_results.length;
-                var cnt = 0;
-                var asyncForEachCallback = function(){
-                    cnt++;
-                    if(cnt == len){ //Check if all the calls have returns
-                        //If they all have, then return results
-                        result.similar = sim_results;
-                        res.send(result);
-                    }
-                };
+                    //Get combined rating with each of google's results
+                    var len = sim_results.length;
+                    var cnt = 0;
+                    var asyncForEachCallback = function () {
+                        cnt++;
+                        if (cnt == len) { //Check if all the calls have returns
+                            //If they all have, then return results
+                            result.similar = sim_results;
+                            res.send(result);
+                        }
+                    };
+                }else{ //If we don't want to search google for each similar business
+                    result.similar = sim_results;
+                    res.send(result);
+                }
             });
     	});
     });
