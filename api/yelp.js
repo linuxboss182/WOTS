@@ -15,18 +15,22 @@ var yelp = function () {
 
 };
 
-yelp.search = function (term, location, callback) {
+yelp.search = function (term, location, limit, callback) {
 
     yelp.client.search({
         term: term,
-        location: location
+        location: location,
+        limit: limit
     }).then(response => {
         if(response.jsonBody.businesses.length == 0){
             callback(null);
         }
-        else{
+        else if(limit == 1){
             console.log(response.jsonBody.businesses[0]);
             callback(response.jsonBody.businesses[0]);
+        }else{
+            console.log(response.jsonBody.businesses);
+            callback(response.jsonBody.businesses);
         }
     }).catch(e => {
         console.log(e);

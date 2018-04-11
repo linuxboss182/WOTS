@@ -51,18 +51,30 @@ router.get('/search', function(req, res, next) {
     var name;
 
 	// search yelp
-    yelp.search(business, zipcode, function (result) {
+    yelp.search(business, zipcode, 1, function (result) {
         yelp_result_rating = result.rating;
        	name = result.name;
 
         // search google
        	google.search(business, lat, long, function (g_result){
+
+       	    // Combine rating
             if(g_result !== null){
                 google_result_rating = g_result.rating;
                 final_rating = combined_ratings(yelp_result_rating, google_result_rating);
                 result.rating = final_rating;
             }
-    		res.send(result);
+
+            // Find similar business
+            yelp.search(result.categories[0].title, zipcode, 5, function (sim_results) {
+
+                result.similar = sim_results;
+
+                // Find nearby business
+
+                // Send result
+                res.send(result);
+            });
     	});
     });
 });
