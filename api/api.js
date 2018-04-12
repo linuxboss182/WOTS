@@ -56,14 +56,14 @@ router.get('/search', function(req, res, next) {
        	name = result.name;
 
         // search google
-       	google.search(business, lat, long, function (g_result){
+       	// google.search(business, lat, long, function (g_result){
 
-       	    // Combine rating
-            if(g_result !== null){
-                google_result_rating = g_result.rating;
-                final_rating = combined_ratings(yelp_result_rating, google_result_rating);
-                result.rating = final_rating;
-            }
+       	//     // Combine rating
+        //     if(g_result !== null){
+        //         google_result_rating = g_result.rating;
+        //         final_rating = combined_ratings(yelp_result_rating, google_result_rating);
+        //         result.rating = final_rating;
+        //     }
 
             // Find similar business
             yelp.search(result.categories[0].title, zipcode, 5, function (sim_results) {
@@ -105,7 +105,7 @@ router.get('/search', function(req, res, next) {
                 }
             });
     	});
-    });
+    // });
 });
 
 router.get('/autocomplete', function(req, res, next) {

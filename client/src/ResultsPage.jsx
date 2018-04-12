@@ -6,6 +6,8 @@ const styles = ({
 	root: {
 		flexGrow: 1,
 		padding: 24,
+		width: '100%',
+		margin: 0,
 	},
 	paper: {
 	  	padding: 48,
@@ -17,29 +19,29 @@ const styles = ({
 class ResultsPage extends Component {
 
 	render() {
-        var similarBusinesses = function() {
-			return (this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
-                this.props.businessData.similar.map(function(sim_business){
-                    return (<Grid container spacing={12}>
+        var similarBusinesses =  (this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
+			this.props.businessData.similar.map(function(sim_business){
+				return (
+					<Grid container spacing={24} key={sim_business['name']}>
 						<Grid item xs={12} sm={4}>
 							<img width="100%" src={sim_business['image_url']} alt=""/>
 						</Grid>
 						<Grid item xs={12} sm={8}>
 							<b>{sim_business['name']}</b><br />
-                            {/*<p>{"Categories: " + (sim_business['categories'].map((category) => category.title).join(", "))}</p>*/}
-                            {/*<p>{"Services: " + (sim_business['transactions'].length > 0 ? sim_business['transactions'].join(", ") : "N/A")}</p>*/}
-                            {"Status: " + (sim_business['is_closed'] ? "Closed" : "Open")}<br />
-                            {"Rating: " + sim_business['rating']}<br />
-                            {"Price: " + (sim_business['price'] === undefined ? "N/A" : sim_business['price'])}<br />
-                            {/*<p>{"Address: " + sim_business['location']['address1']}</p>*/}
-                            {sim_business['location']['city'] + ', ' + sim_business['location']['state'] + ' ' +
-                            sim_business['location']['zip_code']}<br />
-                            {/*<p>{"Phone: " + sim_business['display_phone']}</p>*/}
+							{/*<p>{"Categories: " + (sim_business['categories'].map((category) => category.title).join(", "))}</p>*/}
+							{/*<p>{"Services: " + (sim_business['transactions'].length > 0 ? sim_business['transactions'].join(", ") : "N/A")}</p>*/}
+							{"Status: " + (sim_business['is_closed'] ? "Closed" : "Open")}<br />
+							{"Rating: " + sim_business['rating']}<br />
+							{"Price: " + (sim_business['price'] === undefined ? "N/A" : sim_business['price'])}<br />
+							{/*<p>{"Address: " + sim_business['location']['address1']}</p>*/}
+							{sim_business['location']['city'] + ', ' + sim_business['location']['state'] + ' ' +
+							sim_business['location']['zip_code']}<br />
+							{/*<p>{"Phone: " + sim_business['display_phone']}</p>*/}
 						</Grid>
-					</Grid>);
-       				 })
-				)
-        }.bind(this);
+					</Grid>
+				);
+			})
+		);
 
         return(
 			<Grid container spacing={24} style={styles.root}>
@@ -72,7 +74,7 @@ class ResultsPage extends Component {
 				<Grid item xs={12} sm={3}>
 					<Paper style={styles.paper}>
 						<p>Similar Businesses</p>
-						{similarBusinesses()}
+						{similarBusinesses}
 					</Paper>
 				</Grid>
 			</Grid>

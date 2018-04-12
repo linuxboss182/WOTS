@@ -13,9 +13,11 @@ const styles = ({
 	root: {
 		flexGrow: 1,
 		padding: 24,
+		width: '100%',
+		margin: 0,
 	},
 	paper: {
-	  	padding: 48,
+	  	padding: 50,
 		textAlign: 'center',
 		color: 'black',
 		height: 50,
