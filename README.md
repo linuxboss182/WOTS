@@ -1,3 +1,7 @@
+Github pages:
+
+  - https://linuxboss182.github.io/WOTS/
+
 Requires:
 
   - Node.js https://nodejs.org/en/download/
