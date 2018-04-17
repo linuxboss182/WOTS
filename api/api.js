@@ -67,12 +67,20 @@ router.get('/search', function(req, res, next) {
 
             // Find similar business
             yelp.search(result.categories[0].title, zipcode, 5, function (sim_results) {
-                //Remove duplicate
+
+                //Remove duplicate and compute similarAvgRating
+                var similarAvgRating = 0;
+                var similarAvgRatingLen = 0;
                 sim_results.forEach(function(sim_result, index, object){
                     if(sim_result.id == result.id){
                         object.splice(index, 1);
+                    }else{
+                        similarAvgRating += sim_result.rating;
+                        similarAvgRatingLen += 1;
                     }
                 });
+                result.similarAvgRating = (similarAvgRating / similarAvgRatingLen).toFixed(1);
+
 
                 var combineSimilar = false;
                 if(combineSimilar == true) { //If we want to search google for each similar business

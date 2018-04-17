@@ -22,8 +22,8 @@ class ResultsPage extends Component {
         var similarBusinesses =  (this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
 			this.props.businessData.similar.map(function(sim_business){
 				return (
-					<Grid container spacing={24} key={sim_business['name']}>
-						<Grid item xs={12} sm={4}>
+                <Grid container spacing={24} key={sim_business['name']}>
+					<Grid item xs={12} sm={4}>
 							<img width="100%" src={sim_business['image_url']} alt=""/>
 						</Grid>
 						<Grid item xs={12} sm={8}>
@@ -74,6 +74,8 @@ class ResultsPage extends Component {
 				<Grid item xs={12} sm={3}>
 					<Paper style={styles.paper}>
 						<p>Similar Businesses</p>
+						{(this.props.businessData === null || this.props.businessData === {}) ? (<br />) :
+							(<p>Similar Average Rating {this.props.businessData['similarAvgRating']}</p>)}
 						{similarBusinesses}
 					</Paper>
 				</Grid>
