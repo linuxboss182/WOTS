@@ -5,7 +5,15 @@
     <title>Constellation</title>
 </head>
 <body>
-    <h2>Constellation</h2>
+<style>
+    p {
+        word-wrap: break-word;
+        width: 40%;
+    }
+</style>
+
+    <h2>Constellation </h2>
+    <a href="http://localhost:3000/">DEMO LINK</a>
     <p>This web application is designed to allow users to easily find businesses near them,
         as well as inform them of the quality of the location. In addition, this application
         will suggest alternative locations for the same business that have better ratings,
@@ -13,7 +21,35 @@
         the APIs for Yelp and Google and displaying combined ratings and reviews. We will
         design a novel ranking algorithm, combining information from Google and Yelp.</p>
 
-    <h3>Demo</h3>
-    <a href="http://localhost:3000/">Link to Application</a>
+<h3>Code</h3>
+<a href="https://github.com/linuxboss182/WOTS">CODE LINK</a>
+<h4>Requires:</h4>
+<ul>
+    <li>Node.js <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
+    <li>Yarn <a href="https://yarnpkg.com/lang/en/docs/install/">https://yarnpkg.com/lang/en/docs/install/</a></li>
+    <li>Nodemon "npm install -g nodemon" <a href="https://www.npmjs.com/package/nodemon">https://www.npmjs.com/package/nodemon</a></li>
+</ul>
+<h4>To run node.js and react:</h4>
+<ul>
+    <li>> git pull</li>
+    <li>> cd client</li>
+    <li>> yarn install</li>
+    <li>> cd ..</li>
+    <li>> yarn install</li>
+    <li>> yarn dev</li>
+</ul>
+
+<h3>Data</h3>
+<p>We used the Yelp and Google Places APIs to retrieve information and reviews about businesses.</p>
+
+<ul>
+    <li><a href="https://www.yelp.com/developers/documentation/v3">Yelp API - https://www.yelp.com/developers/documentation/v3</a></li>
+    <li><a href="https://developers.google.com/places/">Google API - https://developers.google.com/places/</a></li>
+</ul>
+
+<p>Additionally, Yelp has an offline dataset (<a href="https://www.yelp.com/dataset/challenge">https://www.yelp.com/dataset/challenge</a>)
+that we used to extract keywords.</p>
+
+
 </body>
 </html>
