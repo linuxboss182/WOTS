@@ -27,12 +27,7 @@ yelp.search = function (term, location, limit, callback) {
         }
         else if(limit == 1){
             yelp.client.reviews(response.jsonBody.businesses[0].id).then(reviewResponse => {
-                var reviewsObj = reviewResponse.jsonBody.reviews;
-                var reviews = [];
-                reviewsObj.forEach(function (review) {
-                    reviews.push(review.text);
-                });
-                response.jsonBody.businesses[0].reviews = reviews;
+                response.jsonBody.businesses[0].reviews = reviewResponse.jsonBody.reviews;
                 callback(response.jsonBody.businesses[0]);
             }).catch(e => {
                 console.log(e);
