@@ -61,6 +61,9 @@ class ResultsPage extends Component {
 										<h2>{this.props.businessData['location']['city'] + ', ' + this.props.businessData['location']['state'] + ' ' + 
 											this.props.businessData['location']['zip_code']}</h2>
 										<h2>{"Phone: " + this.props.businessData['display_phone']}</h2>
+										{this.props.businessData['reviews'].map(review => 
+											<h3 key={review.id}>{"Review: " + review.text}</h3>
+										)}
 									</Grid>
 									<Grid item xs={12} sm={4}>
 										<img width="100%" src={this.props.businessData['image_url']} alt=""/>
