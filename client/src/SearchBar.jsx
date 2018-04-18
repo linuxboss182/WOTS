@@ -156,6 +156,7 @@ class SearchBar extends Component {
 		// 	.catch(err => console.log(err));
 		this.setState({long: position.coords.longitude,
 			lat: position.coords.latitude});
+		this.props.setCurrentPosition({lat: position.coords.latitude, lng: position.coords.longitude});
 	}
 
 	getSuggestions(value) {
@@ -191,6 +192,7 @@ class SearchBar extends Component {
 		if(this.state.searchText !== ""){
 			this.callApi('/search?name='+this.state.searchText+'&zipcode='+this.state.zipCodeText+'&lat='+this.state.lat+'&long='+this.state.long)
 				.then(res => {
+					console.log(res);
 					this.props.setBusinessData(res);
 				})
 				.catch(err => {

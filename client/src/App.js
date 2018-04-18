@@ -10,9 +10,11 @@ class App extends Component {
 
         this.state = {
             businessData: null,
+            currentPosition: null
         };
 
         this.setBusinessData = this.setBusinessData.bind(this);
+        this.setCurrentPosition = this.setCurrentPosition.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +31,10 @@ class App extends Component {
 
     setBusinessData(data) {
         this.setState({businessData: data});
+    }
+
+    setCurrentPosition(data) {
+        this.setState({currentPosition: data});
     }
 
     callApi = async (path) => {
@@ -52,8 +58,8 @@ class App extends Component {
                 <p className="App-intro">{this.state.response}</p>
                 <p className="App-intro">{this.state.anotherresponse}</p> */}
                 <NavBar />
-                <SearchBar setBusinessData={this.setBusinessData}/>
-                <ResultsPage businessData={this.state.businessData}/>
+                <SearchBar setBusinessData={this.setBusinessData} setCurrentPosition={this.setCurrentPosition}/>
+                <ResultsPage businessData={this.state.businessData} currentPosition={this.state.currentPosition}/>
             </div>
         );
     }

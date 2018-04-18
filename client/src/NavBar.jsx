@@ -8,8 +8,8 @@ const styles = {
 	  	flexGrow: 1,
 	},
 	label: {
-		  flex: 0,
-		  marginLeft: 10
+		flex: 0,
+		marginLeft: 10
 	},
 };
 

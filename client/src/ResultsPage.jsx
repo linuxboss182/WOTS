@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
+import MapContainer from './MapContainer';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
 
 const styles = ({
 	root: {
@@ -14,6 +17,11 @@ const styles = ({
 		textAlign: 'center',
 		color: 'black',
 	},
+	similarBusinesses: {
+		padding: 10,
+		textAlign: 'center',
+		color: 'black',
+	}
 });
 
 class ResultsPage extends Component {
@@ -22,23 +30,49 @@ class ResultsPage extends Component {
         var similarBusinesses =  (this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
 			this.props.businessData.similar.map(function(sim_business){
 				return (
-                <Grid container spacing={24} key={sim_business['name']}>
-					<Grid item xs={12} sm={4}>
-							<img width="100%" src={sim_business['image_url']} alt=""/>
-						</Grid>
-						<Grid item xs={12} sm={8}>
-							<b>{sim_business['name']}</b><br />
-							{/*<p>{"Categories: " + (sim_business['categories'].map((category) => category.title).join(", "))}</p>*/}
-							{/*<p>{"Services: " + (sim_business['transactions'].length > 0 ? sim_business['transactions'].join(", ") : "N/A")}</p>*/}
-							{"Status: " + (sim_business['is_closed'] ? "Closed" : "Open")}<br />
-							{"Rating: " + sim_business['rating']}<br />
-							{"Price: " + (sim_business['price'] === undefined ? "N/A" : sim_business['price'])}<br />
-							{/*<p>{"Address: " + sim_business['location']['address1']}</p>*/}
-							{sim_business['location']['city'] + ', ' + sim_business['location']['state'] + ' ' +
-							sim_business['location']['zip_code']}<br />
-							{/*<p>{"Phone: " + sim_business['display_phone']}</p>*/}
-						</Grid>
-					</Grid>
+					<Card key={sim_business['name']} style={{margin: 10, display: 'flex'}}>
+						<CardMedia
+							style={{width: 90, height: 110}}
+							image={sim_business['image_url']}
+							title={sim_business['name']}
+						/>
+						<CardContent style={{flex: '1 0 auto', padding: 5}}>
+							<Typography>
+								{sim_business['name']}
+							</Typography>
+							<Typography>
+								{"Status: " + (sim_business['is_closed'] ? "Closed" : "Open")}
+							</Typography>
+							<Typography>
+								{"Rating: " + sim_business['rating']}
+							</Typography>
+							<Typography>
+								{"Price: " + (sim_business['price'] === undefined ? "N/A" : sim_business['price'])}
+							</Typography>
+							<Typography>
+								{sim_business['location']['city'] + ', ' + sim_business['location']['state'] + ' ' +
+								sim_business['location']['zip_code']}
+							</Typography>
+						</CardContent>
+					</Card>
+                // <Grid container spacing={24} key={sim_business['name']}>
+				// 	<Grid item xs={12} sm={4}>
+				// 			<img width="100%" src={sim_business['image_url']} alt=""/>
+				// 		</Grid>
+				// 		<Grid item xs={12} sm={8}>
+							
+				// 			<b>{sim_business['name']}</b><br />
+				// 			{/*<p>{"Categories: " + (sim_business['categories'].map((category) => category.title).join(", "))}</p>*/}
+				// 			{/*<p>{"Services: " + (sim_business['transactions'].length > 0 ? sim_business['transactions'].join(", ") : "N/A")}</p>*/}
+				// 			{"Status: " + (sim_business['is_closed'] ? "Closed" : "Open")}<br />
+				// 			{"Rating: " + sim_business['rating']}<br />
+				// 			{"Price: " + (sim_business['price'] === undefined ? "N/A" : sim_business['price'])}<br />
+				// 			{/*<p>{"Address: " + sim_business['location']['address1']}</p>*/}
+				// 			{sim_business['location']['city'] + ', ' + sim_business['location']['state'] + ' ' +
+				// 			sim_business['location']['zip_code']}<br />
+				// 			{/*<p>{"Phone: " + sim_business['display_phone']}</p>*/}
+				// 		</Grid>
+				// 	</Grid>
 				);
 			})
 		);
@@ -64,6 +98,14 @@ class ResultsPage extends Component {
 									</Grid>
 									<Grid item xs={12} sm={4}>
 										<img width="100%" src={this.props.businessData['image_url']} alt=""/>
+										<div width={300} height={200} style={{overflow: 'hidden'}}>
+											<MapContainer lat={this.props.businessData['coordinates']['latitude']} 
+												lng={this.props.businessData['coordinates']['longitude']}
+												businessIcon={this.props.businessData['image_url']}
+												businessName={this.props.businessData['name']}
+												currentPosition={this.props.currentPosition}
+												similarBusinesses={this.props.businessData.similar}/>
+										</div>
 									</Grid>
 								</Grid>
 							)
@@ -72,7 +114,7 @@ class ResultsPage extends Component {
 					</Paper>
 				</Grid>
 				<Grid item xs={12} sm={3}>
-					<Paper style={styles.paper}>
+					<Paper style={styles.similarBusinesses}>
 						<p>Similar Businesses</p>
 						{(this.props.businessData === null || this.props.businessData === {}) ? (<br />) :
 							(<p>Similar Average Rating {this.props.businessData['similarAvgRating']}</p>)}
