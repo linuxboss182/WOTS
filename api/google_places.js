@@ -1,5 +1,8 @@
 GOOGLE_API_KEY = "AIzaSyCyQGiLW5zlcFMLYvwgXRA5DEa5ASoi3kQ"
 
+var GooglePlaces = require('google-places');
+var places = new GooglePlaces(GOOGLE_API_KEY);
+
 var google = function() {
 	google.client = require('@google/maps').createClient({
     	key: GOOGLE_API_KEY,
@@ -56,8 +59,11 @@ google.search = function (term, lat, long, callback) {
             callback(null);
         }
         else{
-            console.log(response.json.results[0]);
-            callback(response.json.results[0]);
+            // console.log(response.json.results[0]);
+            places.details({reference: response.json.results[0].reference}, function(err, details) {
+                response.json.results[0].googleReviews = details.result.reviews;
+                callback(response.json.results[0]);
+            });
         }
     }).catch(e => {
         console.log(e);

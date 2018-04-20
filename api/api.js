@@ -108,6 +108,9 @@ router.get('/search', function(req, res, next) {
                 //         }
                 //     };
                 // }else{ //If we don't want to search google for each similar business
+                    // console.log("********")
+                    // console.log(g_result.googleReviews);
+                    result.googleReviews = g_result.googleReviews;
                     result.similar = sim_results;
                     res.send(result);
                 // }

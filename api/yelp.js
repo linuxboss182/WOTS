@@ -27,7 +27,7 @@ yelp.search = function (term, location, limit, callback) {
         }
         else if(limit == 1){
             yelp.client.reviews(response.jsonBody.businesses[0].id).then(reviewResponse => {
-                response.jsonBody.businesses[0].reviews = reviewResponse.jsonBody.reviews;
+                response.jsonBody.businesses[0].yelpReviews = reviewResponse.jsonBody.reviews;
                 callback(response.jsonBody.businesses[0]);
             }).catch(e => {
                 console.log(e);
