@@ -85,6 +85,9 @@ class ResultsPage extends Component {
 							(this.props.businessData === null || this.props.businessData === {}) ? (<p>No results to show</p>) : (
 								<Grid container spacing={24}>
 									<Grid item xs={12} sm={8}>
+										{this.props.businessData['topTfIdf'].map(pair => 
+											<div key={pair.word + pair.val}>{pair.word}</div>
+										)}
 										<h1>{this.props.businessData['name']}</h1>
 										<h3>{"Categories: " + (this.props.businessData['categories'].map((category) => category.title).join(", "))}</h3>
 										<h3>{"Services: " + (this.props.businessData['transactions'].length > 0 ? this.props.businessData['transactions'].join(", ") : "N/A")}</h3>

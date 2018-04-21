@@ -4,6 +4,10 @@
 
 var express = require('express');
 var router = express.Router();
+var natural = require('natural');
+var TfIdf = natural.TfIdf;
+var tfidf = new TfIdf();
+var sw = require('stopword')
 
 var yelp = require('./yelp.js');
 var google = require('./google_places.js');
@@ -13,6 +17,37 @@ google()
 // Average function
 function combined_ratings(rating1, rating2) {
 	return (rating1 + rating2) / 2
+}
+
+function uniqueTokens(tokens) {
+    var seen = {};
+    return tokens.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}
+
+// return top k terms with highest tf-idf values
+function computeTfIdf(reviewTexts, k = 5) {
+    reviewTexts = reviewTexts.toLowerCase();
+    var tokenizer = new natural.WordTokenizer();
+    var tokens = tokenizer.tokenize(reviewTexts);
+    tokens = sw.removeStopwords(tokens);
+    tokens = uniqueTokens(tokens);
+    tfidf.addDocument(reviewTexts);
+    var arr = []; // array of objects (token, measure) 
+    var highTfIdf = []; // k tokens with highest td-idf 
+    tokens.forEach(function (token) {
+        tfidf.tfidfs(token, function(i, measure) {
+            arr.push({word: token, val: measure});
+        });
+    });
+    arr = arr.sort(function (pair1, pair2) {
+        return pair2.val - pair1.val;
+    })
+    for (var i = 0; i < k; i++) {
+        highTfIdf.push(arr[i]);
+    }
+    return highTfIdf;
 }
 
 //Test call
@@ -108,10 +143,17 @@ router.get('/search', function(req, res, next) {
                 //         }
                 //     };
                 // }else{ //If we don't want to search google for each similar business
-                    // console.log("********")
-                    // console.log(g_result.googleReviews);
                     result.googleReviews = g_result.googleReviews;
                     result.similar = sim_results;
+
+                    // combine and extract review texts
+                    var allReviews = result.yelpReviews.concat(result.googleReviews);
+                    var reviewTexts = "";
+                    // combine all review texts into one document
+                    allReviews.forEach(function (review) {
+                        reviewTexts += " " + review.text;
+                    });
+                    result.topTfIdf = computeTfIdf(reviewTexts);
                     res.send(result);
                 // }
             });
