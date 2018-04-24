@@ -23,10 +23,29 @@ const styles = ({
 		padding: 10,
 		textAlign: 'center',
 		color: 'black',
+		zIndex: 1500,
+		position: 'relative'
 	},
 	chip: {
 		marginRight: 10,
 	},
+	chipAvatar: {
+		backgroundColor: '#3F51B5',
+		color: '#FFDA56',
+	},
+	keyWords: {
+		width: '20%',
+		margin: 5,
+		display: 'inline-block',
+		padding: 10,
+		textAlign: 'center',
+		backgroundColor: 'lightblue',
+		color: 'white'
+	},
+	reviews: {
+		textAlign: 'left',
+		margin: 10
+	}
 });
 
 class ResultsPage extends Component {
@@ -48,9 +67,7 @@ class ResultsPage extends Component {
 	};
 	
 	createSearchHandler(searchTerm) {
-		console.log("creating onclick for "+searchTerm);
 		return function() {
-			console.log("searching for "+searchTerm);
 			this.callApi('/search?name='+searchTerm+'&zipcode='+this.props.zipCode+'&lat='+this.props.currentPosition.lat+'&long='+this.props.currentPosition.lng)
 				.then(res => {
 					console.log(res);
@@ -96,7 +113,7 @@ class ResultsPage extends Component {
 		);
 
 		var topTfIdf = (this.props.businessData === null || this.props.businessData === {}) ? [] : this.props.businessData['topTfIdf'].map(pair => 
-			<Chip style={styles.chip} key={pair.word + pair.val + Date.now()} avatar={<Avatar>#</Avatar>} label={pair.word} />
+			<Chip style={styles.chip} key={pair.word + pair.val + Date.now()} avatar={<Avatar style={styles.chipAvatar}>#</Avatar>} label={pair.word} />
 		);
 
         return(
@@ -108,26 +125,35 @@ class ResultsPage extends Component {
 								<Grid container spacing={24}>
 									<Grid item xs={12} sm={8}>
 										{topTfIdf}
+										{/* {this.props.businessData['topTfIdf'].map(pair => 
+											<div key={pair.word + pair.val} style={styles.keyWords}>{pair.word}</div>
+										)} */}
 										<h1>{this.props.businessData['name']}</h1>
 										<h3>{"Categories: " + (this.props.businessData['categories'].map((category) => category.title).join(", "))}</h3>
 										<h3>{"Services: " + (this.props.businessData['transactions'].length > 0 ? this.props.businessData['transactions'].join(", ") : "N/A")}</h3>
-										<h2>{"Status: " + (this.props.businessData['is_closed'] ? "Closed" : "Open")}</h2>
-										<h2>{"Rating: " + this.props.businessData['rating']}</h2>
-										<h2>{"Price: " + (this.props.businessData['price'] === undefined ? "N/A" : this.props.businessData['price'])}</h2>
-										<h2>{"Address: " + this.props.businessData['location']['address1']}</h2> 
-										<h2>{this.props.businessData['location']['city'] + ', ' + this.props.businessData['location']['state'] + ' ' + 
-											this.props.businessData['location']['zip_code']}</h2>
-										<h2>{"Phone: " + this.props.businessData['display_phone']}</h2>
+										<Grid container spacing={24}>
+											<Grid item xs={12} md={6}>
+												<h3>{"Status: " + (this.props.businessData['is_closed'] ? "Closed" : "Open")}</h3>
+												<h3>{"Rating: " + this.props.businessData['rating']}</h3>
+												<h3>{"Price: " + (this.props.businessData['price'] === undefined ? "N/A" : this.props.businessData['price'])}</h3>
+											</Grid>
+											<Grid item xs={12} md={6}>
+												<h3>{"Address: " + this.props.businessData['location']['address1']}</h3> 
+												<h3>{this.props.businessData['location']['city'] + ', ' + this.props.businessData['location']['state'] + ' ' + 
+													this.props.businessData['location']['zip_code']}</h3>
+												<h3>{"Phone: " + this.props.businessData['display_phone']}</h3>
+											</Grid>
+										</Grid>
 										{this.props.businessData['yelpReviews'].map(review => 
-											<h3 key={review.id}>{"Yelp Review: " + review.text}</h3>
+											<div style={styles.reviews} key={review.id}>{"Yelp Review: " + review.text}</div>
 										)}
 										{this.props.businessData['googleReviews'].map(review => 
-											<h3 key={review.time}>{"Google review: " + review.text}</h3>
+											<div style={styles.reviews} key={review.time}>{"Google review: " + review.text}</div>
 										)}
 									</Grid>
 									<Grid item xs={12} sm={4}>
 										<img width="100%" src={this.props.businessData['image_url']} alt=""/>
-										<div width={300} height={200} style={{overflow: 'visible'}}>
+										<div width={300} height={200} style={{overflow: 'hidden'}}>
 											<MapContainer lat={this.props.businessData['coordinates']['latitude']} 
 												lng={this.props.businessData['coordinates']['longitude']}
 												businessIcon={this.props.businessData['image_url']}
@@ -144,9 +170,9 @@ class ResultsPage extends Component {
 				</Grid>
 				<Grid item xs={12} sm={3}>
 					<Paper style={styles.similarBusinesses}>
-						<p>Similar Businesses</p>
+						<h1>Similar Businesses</h1>
 						{(this.props.businessData === null || this.props.businessData === {}) ? (<br />) :
-							(<p>Similar Average Rating {this.props.businessData['similarAvgRating']}</p>)}
+							(<h3>Similar Average Rating {this.props.businessData['similarAvgRating']}</h3>)}
 						{similarBusinesses}
 					</Paper>
 				</Grid>

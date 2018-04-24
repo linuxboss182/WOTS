@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
+
 	componentDidUpdate() {
 		this.map.recenterMap();
 	}
@@ -54,5 +55,6 @@ export class MapContainer extends Component {
   }
   
 export default GoogleApiWrapper({
-	apiKey: ("AIzaSyCyQGiLW5zlcFMLYvwgXRA5DEa5ASoi3kQ")
+	apiKey: ("AIzaSyCyQGiLW5zlcFMLYvwgXRA5DEa5ASoi3kQ"),
+	style: {width: 300, height: 200}
 })(MapContainer)
