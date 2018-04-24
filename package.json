@@ -13,7 +13,7 @@
     "yelp-fusion": "^2.0.3",
     "@google/maps": "^0.4.6",
     "google-places": "^0.0.2",
-    "natural" : "^0.5.6",
+    "natural": "^0.5.6",
     "stopword": "^0.1.10"
   },
   "devDependencies": {
