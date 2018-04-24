@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import ReactDOM from 'react-dom';
 
 export class MapContainer extends Component {
+	constructor(props) {
+		super(props);
+		
+	}
 
 	componentDidUpdate() {
 		this.map.recenterMap();

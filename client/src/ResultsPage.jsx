@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import MapContainer from './MapContainer';
-import Card, { CardContent, CardMedia } from 'material-ui/Card';
+import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
@@ -44,7 +44,9 @@ const styles = ({
 	},
 	reviews: {
 		textAlign: 'left',
-		margin: 10
+	},
+	reviewCard: {
+		marginBottom: 10,
 	}
 });
 
@@ -145,21 +147,46 @@ class ResultsPage extends Component {
 											</Grid>
 										</Grid>
 										{this.props.businessData['yelpReviews'].map(review => 
-											<div style={styles.reviews} key={review.id}>{"Yelp Review: " + review.text}</div>
+											<Card key={review.id} style={styles.reviewCard}>
+												<CardHeader
+													avatar={<Avatar src={"../res/yelp.svg"}/>}
+													title={"Rating: " + review.rating}
+													subheader={review.time_created}
+												/>
+												<CardContent>
+													<Typography component="p" style={styles.reviews}>
+														{review.text}
+													</Typography>
+												</CardContent>
+											</Card>
+											// <div style={styles.reviews} key={review.id}>{"Yelp Review: " + review.text}</div>
 										)}
 										{this.props.businessData['googleReviews'].map(review => 
-											<div style={styles.reviews} key={review.time}>{"Google review: " + review.text}</div>
+											<Card key={review.author_name+review.time} style={styles.reviewCard}>
+												<CardHeader
+													avatar={<Avatar src={"../res/google.svg"}/>}
+													title={"Rating: " + review.rating}
+													subheader={review.relative_time_description}
+												/>
+												<CardContent>
+													<Typography component="p" style={styles.reviews}>
+														{review.text}
+													</Typography>
+												</CardContent>
+											</Card>
+											// <div style={styles.reviews} key={review.time}>{"Google review: " + review.text}</div>
 										)}
 									</Grid>
 									<Grid item xs={12} sm={4}>
-										<img width="100%" src={this.props.businessData['image_url']} alt=""/>
+										<img width="100%" src={this.props.businessData['image_url']} ref={image => this.image = image} alt=""/>
 										<div width={300} height={200} style={{overflow: 'hidden'}}>
 											<MapContainer lat={this.props.businessData['coordinates']['latitude']} 
 												lng={this.props.businessData['coordinates']['longitude']}
 												businessIcon={this.props.businessData['image_url']}
 												businessName={this.props.businessData['name']}
 												currentPosition={this.props.currentPosition}
-												similarBusinesses={this.props.businessData.similar}/>
+												similarBusinesses={this.props.businessData.similar}
+												imageRef={this.image}/>
 										</div>
 									</Grid>
 								</Grid>
