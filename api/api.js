@@ -6,7 +6,6 @@ var express = require('express');
 var router = express.Router();
 var natural = require('natural');
 var TfIdf = natural.TfIdf;
-var tfidf = new TfIdf();
 var sw = require('stopword')
 
 var yelp = require('./yelp.js');
@@ -20,14 +19,18 @@ function combined_ratings(rating1, rating2) {
 }
 
 function uniqueTokens(tokens) {
-    var seen = {};
-    return tokens.filter(function(item) {
-        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    var unique = [];
+    tokens.forEach(t => {
+        if(unique.indexOf(t) == -1){
+            unique.push(t);
+        }
     });
+    return unique;
 }
 
 // return top k terms with highest tf-idf values
 function computeTfIdf(reviewTexts, k = 5) {
+    var tfidf = new TfIdf();
     reviewTexts = reviewTexts.toLowerCase();
     var tokenizer = new natural.WordTokenizer();
     var tokens = tokenizer.tokenize(reviewTexts);
@@ -164,7 +167,7 @@ router.get('/search', function(req, res, next) {
 router.get('/autocomplete', function(req, res, next) {
 
     yelp.autocomplete(req.query.name, req.query.long, req.query.lat, function (result) {
-        console.log("result: " + result);
+        // console.log("result: " + result);
         if(result == null){
             result = {};
         }

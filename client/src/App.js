@@ -10,23 +10,13 @@ class App extends Component {
 
         this.state = {
             businessData: null,
-            currentPosition: null
+            currentPosition: null,
+            zipCodeText: null,
         };
 
         this.setBusinessData = this.setBusinessData.bind(this);
         this.setCurrentPosition = this.setCurrentPosition.bind(this);
-    }
-
-    componentDidMount() {
-        // // Test call 1
-        // this.callApi('/api/hello')
-        //     .then(res => this.setState({ response: res.express }))
-        //     .catch(err => console.log(err));
-
-        // // Test call 2
-        // this.callApi('/')
-        //     .then(res => this.setState({ anotherresponse: res.express }))
-        //     .catch(err => console.log(err));
+        this.setZipCode = this.setZipCode.bind(this);
     }
 
     setBusinessData(data) {
@@ -35,6 +25,10 @@ class App extends Component {
 
     setCurrentPosition(data) {
         this.setState({currentPosition: data});
+    }
+
+    setZipCode(data) {
+        this.setState({zipCodeText: data});
     }
 
     callApi = async (path) => {
@@ -51,15 +45,9 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                {/* <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                <p className="App-intro">{this.state.response}</p>
-                <p className="App-intro">{this.state.anotherresponse}</p> */}
                 <NavBar />
-                <SearchBar setBusinessData={this.setBusinessData} setCurrentPosition={this.setCurrentPosition}/>
-                <ResultsPage businessData={this.state.businessData} currentPosition={this.state.currentPosition}/>
+                <SearchBar setZipCode={this.setZipCode} setBusinessData={this.setBusinessData} setCurrentPosition={this.setCurrentPosition}/>
+                <ResultsPage zipCode={this.state.zipCodeText} setBusinessData={this.setBusinessData} businessData={this.state.businessData} currentPosition={this.state.currentPosition}/>
             </div>
         );
     }

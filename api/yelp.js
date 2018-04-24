@@ -33,7 +33,7 @@ yelp.search = function (term, location, limit, callback) {
                 console.log(e);
             });
         }else{
-            console.log(response.jsonBody.businesses);
+            // console.log(response.jsonBody.businesses);
             callback(response.jsonBody.businesses);
         }
     }).catch(e => {

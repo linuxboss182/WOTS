@@ -128,7 +128,8 @@ class SearchBar extends Component {
 			zipCodeText: "",
 			suggestions: [],
 			long: 0,
-			lat: 0
+			lat: 0,
+			autoSuggestTimeStamp: 0,
 		};
 
 		this.inputChange = this.inputChange.bind(this);
@@ -148,24 +149,19 @@ class SearchBar extends Component {
 	}
 
     setPosition(position){
-		console.log(position);
-		// this.callApi('/reversegeocode?long='+position.coords.longitude+"&lat="+position.coords.latitude)
-		// 	.then(res => {
-		// 		console.log(res);
-		// 	})
-		// 	.catch(err => console.log(err));
 		this.setState({long: position.coords.longitude,
 			lat: position.coords.latitude});
 		this.props.setCurrentPosition({lat: position.coords.latitude, lng: position.coords.longitude});
 	}
 
 	getSuggestions(value) {
-		if(this.state.searchText !== ""){
+		if(this.state.searchText !== "" && Date.now() - this.state.autoSuggestTimeStamp > 500){
 			this.callApi('/autocomplete?name='+value+"&long="+this.state.long+"&lat="+this.state.lat)
 				.then(res => {
 					this.setState({suggestions: res});
 				})
 				.catch(err => console.log(err));
+			this.setState({autoSuggestTimeStamp: Date.now()});
 		}
 	}
 
@@ -175,11 +171,11 @@ class SearchBar extends Component {
 
 	zipCodeChange = (event) => {
 		this.setState({zipCodeText: event.target.value});
+		this.props.setZipCode(event.target.value);
 		if(event.target.value.length === 5) {
 			this.callApi('/geocode?zipcode='+event.target.value)
 				.then(res => {
-					console.log(res);
-					this.setState({lat: res.lat, long: res.long});
+					this.setPosition({coords: {latitude: res.lat, longitude: res.long}});
 				})
 				.catch(err => {
 					console.log(err);

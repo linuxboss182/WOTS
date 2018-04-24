@@ -16,8 +16,6 @@ google.getLatLong = function(address, callback) {
         .geocode({address: address})
         .asPromise()
         .then((response) => {
-            console.log(response.json.results[0].geometry.location.lat);
-            console.log(response.json.results[0].geometry.location.lng);
             callback(response.json.results[0].geometry.location);
         })
         .catch((err) => {
@@ -78,7 +76,7 @@ google.getNearby = function (term, lat, long, callback) {
     })
     .asPromise()
     .then(response => {
-        console.log(response.json.results);
+        // console.log(response.json.results);
         callback(response.json.results)
     }).catch(e => {
         console.log(e);

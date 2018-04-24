@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
 	componentDidUpdate() {
@@ -48,12 +48,6 @@ export class MapContainer extends Component {
 					}}/>
 
 				{similarMarkers}
-	
-				<InfoWindow onClose={this.onInfoWindowClose}>
-					<div>
-						<h1>{this.state === null ? "" : this.state.selectedPlace.name}</h1>
-					</div>
-			</InfoWindow>
 			</Map>
 	  );
 	}
