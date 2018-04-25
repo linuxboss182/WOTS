@@ -94,7 +94,7 @@ router.get('/search', function(req, res, next) {
        	name = result.name;
 
         // search google
-       	google.search(business, lat, long, function (g_result){
+       	google.search(name, lat, long, function (g_result){
 
        	    // Combine rating
             if(g_result !== null){
