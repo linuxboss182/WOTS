@@ -1168,7 +1168,7 @@
 <div class="App">
     <header class="MuiPaper-root-9 MuiPaper-elevation4-15 MuiAppBar-root-1 MuiAppBar-positionStatic-5 MuiAppBar-colorPrimary-7">
         <div class="MuiToolbar-root-36 MuiToolbar-gutters-37" style="flex-grow: 1;">
-            <img src="./constellationLogo.PNG" alt="" height="50">
+            <img src="images/constellationLogo.PNG" alt="" height="50">
             <h2 class="MuiTypography-root-38 MuiTypography-title-44 MuiTypography-colorInherit-57" style="flex: 0 1 0%; margin-left: 10px;">Constellation</h2>
         </div>
     </header>
@@ -1178,6 +1178,7 @@
         <div class="MuiPaper-root-9 MuiPaper-elevation2-13 MuiPaper-rounded-10" style="padding: 48px; text-align: left; color: black;">
 
             <h2 align="center">Constellation</h2>
+            <h4 align="center"> Jesse Gaulin, Bryan Nguon, Huyen Nguyen, Brian Zylich</h4>
             <p style="padding: 10px; text-align: left; word-wrap: break-word;" >
                 This web application is designed to allow users to easily find businesses near them,
                 as well as inform them of the quality of the location. In addition, this application
@@ -1201,6 +1202,7 @@
                 <li>Node.js <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
                 <li>Yarn <a href="https://yarnpkg.com/lang/en/docs/install/">https://yarnpkg.com/lang/en/docs/install/</a></li>
                 <li>Nodemon "npm install -g nodemon" <a href="https://www.npmjs.com/package/nodemon">https://www.npmjs.com/package/nodemon</a></li>
+                <li>Node.js Client for Google API "npm install @google/maps" <a href="https://www.npmjs.com/package/@google/maps">https://www.npmjs.com/package/@google/maps</a></li>
             </ul>
             <b>To run node.js and react:</b>
             <ul>
@@ -1243,11 +1245,21 @@
             <li>Use yelp's offline dataset to pre-train the tf-idf model.</li>
 
             <h3>Evaluation</h3>
-            <img src="evaluation.png" style="width: 100%">
-
-            <h3>Example</h3>
-            <img src="example.png" style="width: 100%; align-content: right;">
-
+            <p style="padding: 10px; text-align: left; word-wrap: break-word;" >
+                The use cases that were proposed for evaluation were:
+                <li>The application is able to gather and return relevant details for the searched business or location.</li>
+                <li>The application is able to identify nearby businesses of the same category. The Google Maps snippet can be used to visually justify the accuracy of the application in terms of addresses of nearby businesses, their reviews, locations, etc.</li>
+                <li>The application presents users with information that cannot be found at Yelp or Google Places when either of these is used by themselves.</li>
+                This is an example of a user looking up The Fix.
+            </p> 
+            <img src="images/example1.png" style="width: 100%; align-content: right;">
+            <img src="images/example2.png" style="width: 100%; align-content: right;">
+            <p style="padding: 10px; text-align: left; word-wrap: break-word;" >
+                As illustrated by the images, the user was able to retrieve information from both Google and Yelp. Specifcally, 
+                the reviews from Yelp and Google were displayed, as well as the combined review score, and information about 
+                similar businesses.
+            </p>
+            <img src="images/evaluation.png" style="width: 100%">
         </div></div>
     </div></div>
 
