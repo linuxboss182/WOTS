@@ -1190,6 +1190,13 @@
             <b>DEMO: </b><a href="http://localhost:3000/">LINK</a> <br />
             <b>CODE: </b><a href="https://github.com/linuxboss182/WOTS">LINK</a><br /><br />
 
+            <h3>Purpose</h3>
+            <p> This application is necessary because when consumers are searching for a business they
+            want to compare different reviews for each business in order to decide where to go.
+            This would be used by somebody who is trying to decide which business or location to visit,
+            whether it be a restaurant, a gym, or any other type of business. By combining reviews,
+            the application helps users save time and get a better idea about the quality of a business or location.</p>
+
             <b>Requires:</b>
             <ul>
                 <li>Node.js <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
@@ -1207,6 +1214,13 @@
                 <li>yarn dev</li>
             </ul>
 
+            <h3>Methods</h3>
+            <p> To gather the data on businesses, we used the Yelp API and Google API. The Node.js framework was used
+                to develop the server, and the React.js framework was used to develop the user interface.
+                The main focus of this project was to develop an intelligent ranking algorithm that combined aspects of
+                the businesses’ profiles on Yelp and Google Places to produce a listing of the top businesses
+                in a given category that are nearby the user.</p>
+
             <h3>Data</h3>
             <p>We used the Yelp and Google Places APIs to retrieve information and reviews about businesses.</p>
 
@@ -1215,6 +1229,12 @@
                 <li>Google API - <a href="https://developers.google.com/places/">https://developers.google.com/places/</a></li>
             </ul>
 
+            <p>Given a search term and a zipcode, we obtain a list of relevant businesses. Using the
+            top result, we can obtain the overall rating for that specific location as well as a list of nearby
+            busiensses, list of reviews, number of reviews, etc. With this data, we apply tf-idf on the reviews to
+            extract and display relevant key words and we also combine the reviews across each platform to present a
+            more informative rating. The application also utilizes Google Maps API to allow the user to see nearby
+            business within proximity of their original search </p>
             <!--<p>Additionally, Yelp has an offline dataset (<a href="https://www.yelp.com/dataset/challenge">https://www.yelp.com/dataset/challenge</a>)-->
                 <!--that we used to extract keywords.</p>-->
 
