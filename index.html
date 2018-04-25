@@ -1222,6 +1222,14 @@
             <h3>Key Takeaways</h3>
             <li>Extracting key words via tf-idf is not ideal, sometimes it will return words that are simply nouns and do not describe the business well.</li>
             <li>APIs have a limit of the amount of information you can get. Specifically, Google Places API gives 5 reviews, and Yelp API gives only 3 reviews.</li>
+            <li>The application is not viable for production use because it violates the terms of service and the number of API calls are limited.</li>
+
+            <h3>Possible Areas for Exploration</h3>
+            <li>Calculate and compare ratings of individual locations with ratings of the overall business.</li>
+            <li>Perform sentiment analysis on key words to separate them into positive key words and negative keywords.</li>
+            <li>Perform image tagging for reviews and add them to the list of keywords, and perform sentiment analysis.</li>
+            <li>Use yelp's offline dataset to pre-train the tf-idf model.</li>
+
             <h3>Evaluation</h3>
             <img src="evaluation.png" style="width: 100%">
 
